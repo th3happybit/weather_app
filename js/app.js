@@ -137,6 +137,9 @@ const UI = (function() {
       //set hour
       hourlyWeatherModel.children[0].children[0].innerHTML =
         new Date(hourlyData[i].time * 1000).getHours() + ":00";
+      //set temp
+      hourlyTemp = Math.round(((hourlyData[i].temperature - 32) * 5) / 9);
+      hourlyWeatherModel.children[1].children[0].innerHTML = hourlyTemp;
       hourlyIcon = hourlyData[i].icon;
       hourlyWeatherModel.children[1].children[1].setAttribute(
         "src",

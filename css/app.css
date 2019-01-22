@@ -179,6 +179,37 @@ table {
 }
 
 /*=======Global Rules===============*/
+/*
+@media(max-width:767px){}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}
+
+*/
+@media (max-width: 767px) {
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 50%;
+    height: 100%;
+    margin: auto;
+    position: relative;
+  }
+  #hourly-panel {
+    width: 50%;
+  }
+  body {
+    background-color: #f1f1f1;
+  }
+  #open-menu {
+    right: 26% !important;
+  }
+}
 * {
   box-sizing: border-box;
 }
