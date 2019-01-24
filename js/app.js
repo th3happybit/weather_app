@@ -231,6 +231,7 @@ const SAVEDCITIESLOCALLY = (function() {
     removeCityButton.appendChild(minus);
     cityBox.appendChild(removeCityButton);
     cityBox.appendChild(cityName);
+    container.appendChild(cityBox);
   };
 
   const delCities = cityHTMLBtn => {
