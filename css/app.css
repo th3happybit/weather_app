@@ -489,6 +489,11 @@ button {
   padding: 5px;
   border-bottom: 1px solid #353b48;
 }
+#menuBar .city_name {
+  width: 90%;
+  height: 100%;
+  display: inline-block;
+}
 #menuBar .city-remove span {
   font-size: 20px;
   color: tomato;

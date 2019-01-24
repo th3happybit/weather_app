@@ -204,6 +204,66 @@ const LOCALSTORAGE = (function() {
 /**
  * ==========================================
  *                                          =
+ *      THIS MODEL (SAVEDCITIESLOCALLY) TO  =
+ *       GET                                =
+ *       SAVED LOCATION FROM LOCAL STORAGE  =
+ *                                          =
+ * ==========================================
+ */
+
+const SAVEDCITIESLOCALLY = (function() {
+  let container = document.querySelector("#saved_cities");
+  const drawCities = city => {
+    //Create Elements
+    let cityBox = document.createElement("DIV"),
+      cityName = document.createElement("SPAN"),
+      removeCityButton = document.createElement("BUTTON"),
+      minus = document.createElement("SPAN");
+    minus.innerHTML = "-";
+    //add Classes
+    cityBox.classList.add("city", "flex-container", "ripple");
+    cityName.classList.add("city_name");
+    removeCityButton.classList.add("ripple", "city-remove");
+    minus.classList.add("flex-container");
+    cityName.innerHTML = city;
+    //appending elements
+    removeCityButton.appendChild(minus);
+    cityBox.appendChild(removeCityButton);
+    cityBox.appendChild(cityName);
+  };
+
+  const delCities = cityHTMLBtn => {
+    let nodes = Array.prototype.slice.call(container.children),
+      city = cityHTMLBtn.closest("city"),
+      cityIndex = nodes.indexOf(city);
+
+    LOCALSTORAGE.remove(cityIndex);
+    city.remove();
+  };
+
+  document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("city-remove")) {
+      delCities(event.target);
+    }
+  });
+  document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("city-name")) {
+      let nodes = Array.prototype.slice.call(container.children),
+        city = event.target.closest("city"),
+        cityIndex = nodes.indexOf(city),
+        savedCities = LOCALSTORAGE.getSavedCitites();
+
+      WEATHER.getWeather(savedCities[cityIndex], false);
+    }
+  });
+  return {
+    drawCities
+  };
+})();
+
+/**
+ * ==========================================
+ *                                          =
  *      THIS MODEL (GETLOCATION) TO GET     =
  *       LOCATION                           =
  *                                          =
@@ -291,6 +351,7 @@ const WEATHER = (function() {
 
         if (save) {
           LOCALSTORAGE.save(location);
+          SAVEDCITIESLOCALLY.drawCities(location);
         }
         let lat = res.data.results[0].geometry.lat,
           lng = res.data.results[0].geometry.lng;
@@ -318,6 +379,7 @@ window.onload = function() {
   LOCALSTORAGE.get();
   let cities = LOCALSTORAGE.getSavedCitites();
   if (cities.length !== 0) {
+    cities.forEach(city => SAVEDCITIESLOCALLY.drawCities(city));
     WEATHER.getWeather(cities[cities.length - 1], false);
   } else {
     UI.showApp();
