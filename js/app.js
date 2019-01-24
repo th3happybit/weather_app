@@ -7,6 +7,9 @@
  * =====================================
  */
 const UI = (function() {
+  const capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
   const showApp = () => {
     document.querySelector("#loader").classList.add("display-none");
     document.querySelector("main").removeAttribute("hidden");
@@ -160,7 +163,8 @@ const UI = (function() {
   return {
     showApp,
     HideApp,
-    drawWeather
+    drawWeather,
+    capitalizeFirstLetter
   };
 })();
 /**
@@ -224,19 +228,19 @@ const SAVEDCITIESLOCALLY = (function() {
     //add Classes
     cityBox.classList.add("city", "flex-container", "ripple");
     cityName.classList.add("city_name");
-    removeCityButton.classList.add("ripple", "city-remove");
-    minus.classList.add("flex-container");
-    cityName.innerHTML = city;
+    removeCityButton.classList.add("ripple", "city-remove", "del");
+    minus.classList.add("flex-container", "del");
+    cityName.innerHTML = UI.capitalizeFirstLetter(city);
     //appending elements
     removeCityButton.appendChild(minus);
-    cityBox.appendChild(removeCityButton);
     cityBox.appendChild(cityName);
+    cityBox.appendChild(removeCityButton);
     container.appendChild(cityBox);
   };
 
   const delCities = cityHTMLBtn => {
     let nodes = Array.prototype.slice.call(container.children),
-      city = cityHTMLBtn.closest("city"),
+      city = cityHTMLBtn.closest(".city"),
       cityIndex = nodes.indexOf(city);
 
     LOCALSTORAGE.remove(cityIndex);
@@ -244,17 +248,18 @@ const SAVEDCITIESLOCALLY = (function() {
   };
 
   document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("city-remove")) {
+    if (event.target.classList.contains("del")) {
+      console.log(event.target);
       delCities(event.target);
     }
   });
   document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("city-name")) {
+    if (event.target.classList.contains("city_name")) {
       let nodes = Array.prototype.slice.call(container.children),
-        city = event.target.closest("city"),
+        city = event.target.closest(".city"),
         cityIndex = nodes.indexOf(city),
         savedCities = LOCALSTORAGE.getSavedCitites();
-
+      console.log(city);
       WEATHER.getWeather(savedCities[cityIndex], false);
     }
   });
