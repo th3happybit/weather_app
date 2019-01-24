@@ -180,8 +180,12 @@ const LOCALSTORAGE = (function() {
   let savedCities = [];
 
   const save = city => {
-    savedCities.push(city);
-    localStorage.setItem("savedCities", JSON.stringify(savedCities));
+    if (!getSavedCitites().includes(UI.capitalizeFirstLetter(city))) {
+      console.log(getSavedCitites());
+      savedCities.push(UI.capitalizeFirstLetter(city));
+      localStorage.setItem("savedCities", JSON.stringify(savedCities));
+      console.log(getSavedCitites());
+    }
   };
 
   const get = () => {
