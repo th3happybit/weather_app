@@ -1,6 +1,8 @@
-# Weather App [link](https://amine-louni.github.io/weather_app/)
+# Weather App
 
-A weather app, with smooth experience and nice UI design.
+A weather app, with smooth experience and nice UI design.  
+
+[Demo](https://amine-louni.github.io/weather_app/)  
 
 ## Web Api Used
   
