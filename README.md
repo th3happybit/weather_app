@@ -1,6 +1,8 @@
 # Weather App
 
-A weather app, with smooth experience and nice UI design.
+A weather app, with smooth experience and nice UI design, Can be Installed as "Progressive Web App" from the browser.  
+
+[Demo](https://amine-louni.github.io/weather_app/)  
 
 ## Web Api Used
   
