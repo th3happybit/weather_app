@@ -416,7 +416,7 @@ var config = {
 firebase.initializeApp(config);
 
 var uiConfig = {
-  signInSuccessUrl: '/index.html',
+  signInSuccessUrl: 'index.html',
   signInFlow: 'popup',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
