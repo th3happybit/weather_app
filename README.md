@@ -2,7 +2,8 @@
 
 A weather app, with smooth experience and nice UI design, Can be Installed as "Progressive Web App" from the browser.  
 
-[Demo](https://amine-louni.github.io/weather_app/)  
+[Github Demo](https://amine-louni.github.io/weather_app/)  
+[Firebase demo](https://weatherapp-42eeb.firebaseapp.com)
 
 ## Web Api Used
   
