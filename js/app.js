@@ -396,3 +396,33 @@ window.onload = function() {
     UI.showApp();
   }
 };
+
+/**
+ * ==========================================
+ *                                          =
+ *      FirebaseUI config                                =
+ *                                          =
+ * ==========================================
+ */
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBx5DsvJYV0r_h6j31YFYbf09vctXhIU70",
+  authDomain: "weatherapp-42eeb.firebaseapp.com",
+  databaseURL: "https://weatherapp-42eeb.firebaseio.com",
+  projectId: "weatherapp-42eeb",
+  storageBucket: "weatherapp-42eeb.appspot.com",
+  messagingSenderId: "195273821262"
+};
+firebase.initializeApp(config);
+
+var uiConfig = {
+  signInSuccessUrl: '/index.html',
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+  ]
+};
+// Initialize the FirebaseUI widget using Firebase.
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+ui.start('#firebaseui-auth-container', uiConfig);
