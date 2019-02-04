@@ -457,6 +457,10 @@ button {
   text-align: center;
   height: 35%;
 }
+#menuBar .advice {
+  text-align: center;
+  margin: 5px;
+}
 #menuBar .find-location #location-input {
   background: none;
   border: none;

@@ -196,8 +196,10 @@ const LOCALSTORAGE = (function() {
 
   const remove = index => {
     if (index < savedCities.length) {
+      city = savedCities[index];
       savedCities.splice(index, 1);
       localStorage.setItem("savedCities", JSON.stringify(savedCities));
+      deleteLocation(city);
     }
   };
   const getSavedCitites = () => savedCities;
@@ -246,9 +248,8 @@ const SAVEDCITIESLOCALLY = (function() {
     let nodes = Array.prototype.slice.call(container.children),
       city = cityHTMLBtn.closest(".city"),
       cityIndex = nodes.indexOf(city);
-
-    LOCALSTORAGE.remove(cityIndex);
-    city.remove();
+      LOCALSTORAGE.remove(cityIndex);
+      city.remove();
   };
 
   document.addEventListener("click", function(event) {
@@ -304,6 +305,7 @@ const getLocation = (function() {
     addLocation.setAttribute("disabled", "true");
 
     WEATHER.getWeather(location, true);
+    saveLocation(location);
   }
 
   //Add Events :)
@@ -400,7 +402,7 @@ window.onload = function() {
 /**
  * ==========================================
  *                                          =
- *      FirebaseUI config                                =
+ *      Firebase config                                =
  *                                          =
  * ==========================================
  */
@@ -414,7 +416,7 @@ var config = {
   messagingSenderId: "195273821262"
 };
 firebase.initializeApp(config);
-
+// firebase ui config
 var uiConfig = {
   signInSuccessUrl: 'index.html',
   signInFlow: 'popup',
@@ -426,3 +428,67 @@ var uiConfig = {
 // Initialize the FirebaseUI widget using Firebase.
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 ui.start('#firebaseui-auth-container', uiConfig);
+// Track the auth of user
+var uid = '';
+initApp = function() {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var email = user.email;
+      var photoURL = user.photoURL;
+      uid = user.uid;
+      user.getIdToken().then(function(accessToken) {
+        document.getElementById('sign-in-status').innerHTML += '<p style="color: #00de59;">Signed in</p>';
+        document.getElementById('firebaseui-auth-container').textContent = '';
+        document.getElementById('loginmessage').textContent = '';
+        document.getElementById('account-details').innerHTML = `<img class="advice" src="`+photoURL+`" style="
+                                                                        width: 70px;
+                                                                        border-radius: 35px;
+                                                                        border-color:  #ffff;
+                                                                        border-width:  5px;">
+                                                                        <p class="advice">`+displayName+`</p>`;
+      });
+      initLocations();
+    } else {
+      // User is signed out.
+      document.getElementById('sign-in-status').innerHTML += '<p style="color: #e4c800;">Signed out</p>';
+      document.getElementById('account-details').textContent = '';
+    }
+  }, function(error) {
+    console.log(error);
+  });
+};
+
+window.addEventListener('load', function() {
+  initApp()
+});
+// Save location in database
+var database = firebase.database();
+function saveLocation(location) {
+  if (uid != '') {
+    database.ref('users/' + uid).push({
+      location: location
+    });
+  }
+}
+// To init locations get locaton from database and get their weather
+function initLocations() {
+  var userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      snapshot.forEach(function(child) {
+        WEATHER.getWeather(child.val().location, true);
+      });
+  });
+}
+// To delete a location from database
+function deleteLocation(location) {
+  var userId = firebase.auth().currentUser.uid;
+  return database.ref('/users/' + userId).once('value').then(function(snapshot) {
+      snapshot.forEach(function(child) {
+        if (child.val().location == location.toLowerCase()) {
+          database.ref('/users/'+ userId+'/' + child.key).remove();
+        }
+      });
+  });
+}
