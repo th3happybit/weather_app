@@ -116,6 +116,15 @@
               </button>
             </div> -->
           </div>
+        <br>
+        <div class="advice">
+          <div
+            class="fb-like"
+            data-share="true"
+            data-width="450"
+            data-show-faces="true">
+        </div>
+      </div>
         
       </section>
     </main>
@@ -124,5 +133,23 @@
   <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
   <script src="js/app.js"></script>
+  <script type="text/javascript">
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '2262390530696531',
+      xfbml      : true,
+      version    : 'v3.2'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
 </body>
 </html>
