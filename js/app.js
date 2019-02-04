@@ -487,7 +487,7 @@ function deleteLocation(location) {
   var userId = firebase.auth().currentUser.uid;
   return database.ref('/users/' + userId).once('value').then(function(snapshot) {
       snapshot.forEach(function(child) {
-        if (child.val().location == location.toLowerCase()) {
+        if (child.val().location.toLowerCase() == location.toLowerCase()) {
           database.ref('/users/'+ userId+'/' + child.key).remove();
         }
       });
