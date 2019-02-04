@@ -484,6 +484,14 @@ button {
   font-size: 18px;
   text-transform: capitalize;
 }
+#menuBar .advice #sign-out {
+  background-color: #c35643;
+  color: #fff;
+  margin: 25px auto;
+  padding: 5px 35px;
+  font-size: 18px;
+  text-transform: capitalize;
+}
 #menuBar #add-location-btn.btn-disable {
   background-color: #f1f1f1;
 }

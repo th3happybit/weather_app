@@ -441,7 +441,7 @@ initApp = function() {
       uid = user.uid;
       user.getIdToken().then(function(accessToken) {
         document.getElementById('sign-in-status').innerHTML += '<p style="color: #00de59;">Signed in</p>';
-        document.getElementById('firebaseui-auth-container').textContent = '';
+        document.getElementById('firebaseui-auth-container').innerHTML = '<button id="sign-out" class="ripple" onclick="sign_out()">Sign out</button>';
         document.getElementById('loginmessage').textContent = '';
         document.getElementById('account-details').innerHTML = `<img class="advice" src="`+photoURL+`" style="
                                                                         width: 70px;
@@ -491,5 +491,13 @@ function deleteLocation(location) {
           database.ref('/users/'+ userId+'/' + child.key).remove();
         }
       });
+  });
+}
+// sign out 
+function sign_out(argument) {
+  firebase.auth().signOut().then(function() {
+    location.reload();
+  }, function(error) {
+    console.log(error);
   });
 }
